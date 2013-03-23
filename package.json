@@ -1,0 +1,28 @@
+{
+  "name": "schedule-drone",
+  "version": "0.0.1",
+  "description": "Reliable, fault-tolerant, persistent event scheduler for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/topliceanu/schedule-drone.git"
+  },
+  "keywords": [
+    "scheduler",
+    "persistent",
+    "fault-tolerant"
+  ],
+  "author": "alexandru topliceanu",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "moment": "~2.0.0",
+    "cron": "~1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.2"
+  }
+}
