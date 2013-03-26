@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script --timeout 3000",
-    "build": "coffee -o ./lib/ -c ./src",
+    "build": "coffee -o ./lib/ -c ./src"
   },
   "repository": {
     "type": "git",
