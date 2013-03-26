@@ -17,21 +17,44 @@ moduleOptions = {}
 store = null
 
 exports.setConfig = (options) ->
+    ###
+        Set module configuration.
+        @param {Object} options
+        @param {String} options.connectionString - mongodb connection string
+        @param {String} options.eventsCollection - OPTIONAL - name of the
+                            collection where tasks will be stored,
+                            default value is 'ScheduledEvents'
+        @param {Number} options.scheduleInterval - OPTIONAL - interval in ms
+                            to poll the database for new scheduled events,
+                            default 1000ms
+        @param {Boolean} options.startPollingForEvents - OPTIONAL - allows the
+                        user to start polling for events on demand if false,
+                        defaults to true
+    ###
     isOptions = true
     moduleOptions = options
     store = new Store options
 
 exports.daemon = ->
     ###
-        Starts the event listener.
+        Starts the event listener daemon.
+        @return an instance of a PersistentScheduler which inherits from
+            events.EventEmitter. Use it to schedule events and to register
+            handlers for the events.
     ###
+    unless isOptions
+        throw new Error 'Execute #setConfig() first'
     new PersistentScheduler store, options
 
-exports.scheduleAndStore = (timestamp, event, payload, callback) ->
+exports.schedule = (timestamp, event, payload, callback = ->) ->
     ###
         Schedule an event to be emitted at some point in the future.
+        @param {String|Date} timestamp - either a cron string or a Date
+        @param {String} event - the event name
+        @param {Object} payload - the data attached to the event
+        @param {Function} callback - OPTIONAL
     ###
-    PersistentScheduler.scheduleAndStore store, timestamp, event, payload,
-        (err, job) ->
-            if err? then return callback err
-            return callback null, job
+    unless isOptions
+        throw new Error 'Execute #setConfig() first'
+    PersistentScheduler.scheduleAndStore store, timestamp, event, payload, (err) ->
+        return callback err

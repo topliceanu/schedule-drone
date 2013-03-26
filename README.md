@@ -1,7 +1,7 @@
 schedule-drone
 ==============
 
-[![Build Status](https://travis-ci.org/topliceanu/scheduler-drone.png)](https://travis-ci.org/topliceanu/scheduler-drone)
+[![Build Status](https://travis-ci.org/topliceanu/schedule-drone.png?branch=master)](https://travis-ci.org/topliceanu/schedule-drone)
 
 A reliable , fault-tolerant, persistent event scheduler for node.js
 It achieves it's resiliance by storing event configurations on disk.
@@ -14,7 +14,7 @@ Install
 npm install schedule-drone
 ````
 
-Dev Install
+Development
 -----------
 
 ````bash
@@ -22,72 +22,60 @@ git clone git@github.com:topliceanu/schedule-drone.git
 cd schedule-drone
 npm install
 npm test # To run the tests.
+npm build # To build the js files that are published to npm
 ````
-
-Api
----
-
-`drone.Scheduler` class extends from `events.EventEmitter` and adds a new
-method that schedule a new event sometime in the future.
-
-`drone.Scheduler.schedule(when:Mixed, event:String, [params:Object])`
-
-    `when` can be a number, in this case it will be interpreted as a unix
-    timestamp when the event will be triggered, or as a cron syntax string
-    for a cyclic event.
-
-    `params` can is an Object, that is passed to the event listener.
 
 Example
 -------
 
 ````coffeescript
 drone = require 'schedule-drone'
-drone.setup options
-````
-
-
-
-````coffeescript
-drone = require 'schedule-drone'
 drone.setConfig
-    provider: 'mongodb'
-    connection: 'mongodb://localhost'
+    connectionString: 'mongodb://localhost:27017/scheduled-events'
 
 scheduler = drone.daemon()
-scheduler.on 'event'
 
-drone.scheduleAndStore
+# Add a one-time event scheduled in the future, given a Date instance.
+scheduler.schedule dateInFuture, 'my-one-time-event', params
 
+# Add the cyclic event using the standard unix cron syntax.
+scheduler.schedule '* * * * * 1', 'my-cron-event', params
 
-# Initialize the scheduler drone.
-scheduler = new drone.Persistence
-    persistance:
-        provider: 'mongodb'
-        connection: 'mongodb://localhost'
+scheduler.on 'my-one-time-event', (params) ->
+    # Do something awesome
 
-# Add a one-time event scheduled in the future, given the unix timestamp.
-# Note that the current supported resolution
-# for one-time scheduled event is 1 minute.
-scheduler.schedule 12341234514, 'event-name',
-    # Pass in event params that will be delivered to the client
-    param1: 'val1'
-    param2: 'val2'
-    # ...
-
-# Add the cyclic event using the standard unix timestamp.
-scheduler.schedule '* * * * * 1', 'event-name',
-    # Pass in event params that will be delivered to the client
-    param1: 'val1'
-    param2: 'val2'
-    # ...
-
-# Make the scheduler trigger new event. If this method is not called,
-# the scheduler can only be used to publish event.
-scheduler.daemon()
-
-# Register callbacks for events, but only after you start the daemon.
-scheduler.on 'event-name', (params) ->
-    # Do some magic with the params here.
 ````
 
+Api
+---
+
+`drone.setConfig()` - pass in configuration needed for the module's api to work. At the very least the connection string to the persistence layer must be supplied.
+
+`drone.daemon()` - start the scheduler daemon. It listens to new scheduled events, stores then, and triggeres them appropriately. Returns an instance of a PersistenceScheduler.
+
+`class PersistentScheduler` - inherits from `events.EventEmitter`
+
+`PersistenceScheduler.schedule(when:String|Date, event:String, data:Object, callback:Function)`
+- schedules an event in the future without storing it on disk.
+- `when` can be a [crontab syntax string](http://crontab.org/) for cyclic events or an instance of [Date](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date) in the future for one-time events.
+
+`PersistenceScheduler.scheduleAndStore(when:String|Date, event:String, data:Object, callbac:Function)`
+- schedules and events in the future and stores it on disk.
+- `when` can be a [crontab syntax string](http://crontab.org/) for cyclic events or an instance of [Date](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date) in the future for one-time events.
+
+`drone.schedule()`
+- useful for scheduling events without actually needing to listen to when they occur (ie in another process)
+
+
+Licence
+-------
+
+MIT Licence
+
+Copyright (C) 2013 alexandru.topliceanu@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -31,38 +31,24 @@ class PersistentScheduler extends Scheduler
         if @options.startPollingForEvents
             @_checkForEvents @options.scheduleInterval
 
-    scheduleAndStore: (timestamp, event, payload = {}, callback) ->
+    scheduleAndStore: ->
         ###
-            Method persists a scheduled event. If a callback is supplied it
+            Instance method that persists an event to be scheduled.
+            @see PersistentScheduler#scheduleAndStore for details
+        ###
+        PersistentScheduler.scheduleAndStore @store, arguments...
+
+    @scheduleAndStore: (store, timestamp, event, payload = {}, callback) ->
+        ###
+            Class method persists a scheduled event. If a callback is supplied it
             can return the cron job created.
+
+            @static
+            @param {Object} store - instance of Store class
             @param {String|Date} timestamp
             @param {String} event
             @param {Object} payload
             @param {Function} callback - function (err, cronJob)
-        ###
-        unless _.isString event
-            throw new Error "Expected `event` to be String. #{event} given!"
-
-        unless (_.isString timestamp) or (_.isDate timestamp)
-            throw new Error "Expected `timestamp` to be either String or Date."+
-                            "#{timestamp} given!"
-
-        data =
-            timestamp: timestamp
-            event: event
-            payload: payload
-
-        @store.save data, (err, storedEvent) =>
-            if err? then return callback err
-            payload.__eventId = storedEvent.id
-
-            return callback()
-
-    @scheduleAndStore: (store, timestamp, event, payload = {}, callback) ->
-        ###
-            Class method to store a scheduled event.
-            @static
-            @see PersistentScheduler#scheduleAndStore for details
         ###
         unless store instanceof Store
             throw new Error 'PersistentScheduler requires a Store instance'
@@ -78,7 +64,7 @@ class PersistentScheduler extends Scheduler
             event: event
             payload: payload
 
-        @store.save data, (err, storedEvent) =>
+        store.save data, (err, storedEvent) =>
             callback err
 
     onTickEmit: (event, payload) =>

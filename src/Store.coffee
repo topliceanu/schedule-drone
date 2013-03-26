@@ -8,14 +8,15 @@ Mixed = mongoose.Schema.Types.Mixed
 
 class Store
 
+    EVENTS_COLLECTION = 'ScheduledEvent'
 
     EventModel: null
 
     constructor: (@options = {}) ->
         unless (_.isObject @options) and
-            (_.isString @options.connectionString) and
-            (_.isString @options.eventsCollection)
-                throw new utils.Error 'Incorrect params'
+            (_.isString @options.connectionString)
+                throw new util.Error 'Incorrect params'
+        @options.eventsCollection ||= EVENTS_COLLECTION
         @connection = mongoose.createConnection @options.connectionString
         @_setupModel()
 
