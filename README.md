@@ -1,6 +1,8 @@
 schedule-drone
 ==============
 
+[![Build Status](https://travis-ci.org/topliceanu/scheduler-drone.png)](https://travis-ci.org/topliceanu/scheduler-drone)
+
 A reliable , fault-tolerant, persistent event scheduler for node.js
 It achieves it's resiliance by storing event configurations on disk.
 Currently only MongoDB persistance is supported.
