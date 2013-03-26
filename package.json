@@ -1,11 +1,11 @@
 {
   "name": "schedule-drone",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Reliable, fault-tolerant, persistent event scheduler for node.js",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script --timeout 3000",
-    "build": "coffee -o ./lib/ -c ./src"
+    "prepublish": "coffee -o ./lib/ -c ./src"
   },
   "repository": {
     "type": "git",
