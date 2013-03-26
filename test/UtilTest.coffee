@@ -1,6 +1,6 @@
 assert = (require 'chai').assert
 
-util = require '../src/util.coffee'
+util = require '../src/util'
 
 
 describe 'Util', ->

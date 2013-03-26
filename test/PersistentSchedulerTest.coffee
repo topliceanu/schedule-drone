@@ -2,9 +2,9 @@ assert = (require 'chai').assert
 moment = require 'moment'
 sinon = require 'sinon'
 
-Store = require '../src/Store.coffee'
-Scheduler = require '../src/Scheduler.coffee'
-PersistentScheduler = require '../src/PersistentScheduler.coffee'
+Store = require '../src/Store'
+Scheduler = require '../src/Scheduler'
+PersistentScheduler = require '../src/PersistentScheduler'
 
 
 describe 'PersistentScheduler', ->

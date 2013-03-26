@@ -3,7 +3,7 @@ events = require 'events'
 assert = (require 'chai').assert
 moment = require 'moment'
 
-Scheduler = require '../src/Scheduler.coffee'
+Scheduler = require '../src/Scheduler'
 
 
 describe 'Scheduler', ->

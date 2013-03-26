@@ -1,9 +1,9 @@
 moment = require 'moment'
 _ = require 'underscore'
 
-Scheduler = require './Scheduler.coffee'
-Store = require './Store.coffee'
-util = require './util.coffee'
+Scheduler = require './Scheduler'
+Store = require './Store'
+util = require './util'
 
 
 class PersistentScheduler extends Scheduler

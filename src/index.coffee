@@ -9,8 +9,8 @@
     be stored in the database and be triggered in batches.
 ###
 
-PersistentScheduler = require './PersistentScheduler.coffee'
-Store = require './Store.coffee'
+PersistentScheduler = require './PersistentScheduler'
+Store = require './Store'
 
 isOptions = false
 moduleOptions = {}

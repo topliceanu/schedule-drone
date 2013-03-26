@@ -2,7 +2,7 @@ _ = require 'underscore'
 moment = require 'moment'
 mongoose = require 'mongoose'
 
-util = require './util.coffee'
+util = require './util'
 
 Mixed = mongoose.Schema.Types.Mixed
 

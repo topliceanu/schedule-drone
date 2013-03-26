@@ -2,7 +2,7 @@ assert = (require 'chai').assert
 mongoose = require 'mongoose'
 moment = require 'moment'
 
-Store = require '../src/Store.coffee'
+Store = require '../src/Store'
 
 
 describe 'Store', ->
