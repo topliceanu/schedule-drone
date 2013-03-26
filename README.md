@@ -2,6 +2,8 @@ schedule-drone
 ==============
 
 A reliable , fault-tolerant, persistent event scheduler for node.js
+It achieves it's resiliance by storing event configurations on disk.
+Currently only MongoDB persistance is supported.
 
 Install
 -------
@@ -39,6 +41,22 @@ Example
 
 ````coffeescript
 drone = require 'schedule-drone'
+drone.setup options
+````
+
+
+
+````coffeescript
+drone = require 'schedule-drone'
+drone.setConfig
+    provider: 'mongodb'
+    connection: 'mongodb://localhost'
+
+scheduler = drone.daemon()
+scheduler.on 'event'
+
+drone.scheduleAndStore
+
 
 # Initialize the scheduler drone.
 scheduler = new drone.Persistence

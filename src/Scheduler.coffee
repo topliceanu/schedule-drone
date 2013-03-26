@@ -22,9 +22,11 @@ class Scheduler extends events.EventEmitter
         new cron.CronJob
             cronTime: timestamp
             onTick: =>
-                @emit event, payload
+                @onTickEmit event, payload
             start: true
 
+    onTickEmit: (event, payload) ->
+        @emit event, payload
 
 # Public API.
 module.exports = Scheduler

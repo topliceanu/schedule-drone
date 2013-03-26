@@ -36,16 +36,32 @@ describe 'Scheduler', ->
     it 'should correctly schedule a one-time event', (done) ->
         scheduler = new Scheduler
 
-        # Schedule the event to go off in two seconds from now.
+        # Schedule the event to go off in one second from now.
         payload = data: true
         date = moment().add('seconds', 1).toDate()
         eventScheduled = Date.now()
-        scheduler.schedule date, 'test-event', payload
+        scheduler.schedule date, 'test-one-time', payload
 
-        scheduler.on 'test-event', (receivedPayload) ->
+        scheduler.on 'test-one-time', (receivedPayload) ->
+            debugger
             eventTriggered = Date.now()
             assert.ok 950 < eventTriggered - eventScheduled < 1050,
                 'should be triggered at ~1000ms from scheduling'
             assert.deepEqual receivedPayload, payload,
                 'should send the correct data on the event'
             done()
+
+    it 'should correclty schedule a cyclic event', (done) ->
+        scheduler = new Scheduler
+
+        # Schedule the event to go off at each half a second
+        payload = data: true
+        everySecond = '* * * * * *'
+        scheduler.schedule everySecond, 'test-cyclic', payload
+
+        runs = 0
+        scheduler.on 'test-cyclic', (receivedPayload) ->
+            runs += 1
+            assert.deepEqual receivedPayload, payload,
+                'should receive the payload'
+            done() if runs is 2
