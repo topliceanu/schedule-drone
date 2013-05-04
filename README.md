@@ -63,8 +63,9 @@ Api
 - schedules and events in the future and stores it on disk.
 - `when` can be a [crontab syntax string](http://crontab.org/) for cyclic events or an instance of [Date](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date) in the future for one-time events.
 
-`drone.schedule()`
+`drone.schedule(dataOrCronString, eventName, eventPayload, callback)`
 - useful for scheduling events without actually needing to listen to when they occur (ie in another process)
+- the _optional_  `callback` is called when an error occurs while persisting the task.
 
 
 Licence
