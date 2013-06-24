@@ -39,11 +39,12 @@ exports.setConfig = (options) ->
                         user to start polling for events on demand if false,
                         defaults to true
     ###
-    isOptions = true
-    moduleOptions = options
     unless options.persistence?.type? and options.persistence.type is 'mongodb'
         throw new Error 'Only mongodb persistence is supported currently'
-    store = new Store options.persistance
+    store = new Store options.persistence
+
+    isOptions = true
+    moduleOptions = options
 
 exports.daemon = ->
     ###
@@ -54,7 +55,7 @@ exports.daemon = ->
     ###
     unless isOptions
         throw new Error 'Execute #setConfig() first'
-    new PersistentScheduler store, options
+    new PersistentScheduler store, moduleOptions
 
 exports.schedule = (timestamp, event, payload, callback = ->) ->
     ###
