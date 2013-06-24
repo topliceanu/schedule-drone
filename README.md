@@ -31,7 +31,10 @@ Example
 ````coffeescript
 drone = require 'schedule-drone'
 drone.setConfig
-    connectionString: 'mongodb://localhost:27017/scheduled-events'
+    persistence:
+        type: 'mongodb'
+        connectionString: 'mongodb://localhost:27017/scheduled-events'
+        options: {} # Some mongodb driver options here.
 
 scheduler = drone.daemon()
 

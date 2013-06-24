@@ -19,10 +19,18 @@ store = null
 exports.setConfig = (options) ->
     ###
         Set module configuration.
-        @param {Object} options
-        @param {String} options.connectionString - mongodb connection string
-        @param {String} options.eventsCollection - OPTIONAL - name of the
-                            collection where tasks will be stored,
+        @param {Object} options - params to pass to the scheduler drone
+        @param {Object} options.persistence - options for the persistence
+                                              layer of tasks
+        @param {String} options.persistence.type - the type of storage supported
+                                        Currently only 'mongodb' is supported.
+        @param {String} options.persistence.connectionString - specific option
+                                        for mongoose, the connection string.
+        @param {String} options.persistence.options - specific option
+                                        for mongoose, the second options passed
+                                        to the Mongoose connection constructor.
+        @param {String} options.persistence.eventsCollection - OPTIONAL - name
+                            of the collection where tasks will be stored,
                             default value is 'ScheduledEvents'
         @param {Number} options.scheduleInterval - OPTIONAL - interval in ms
                             to poll the database for new scheduled events,
@@ -33,7 +41,9 @@ exports.setConfig = (options) ->
     ###
     isOptions = true
     moduleOptions = options
-    store = new Store options
+    unless options.persistence?.type? and options.persistence.type is 'mongodb'
+        throw new Error 'Only mongodb persistence is supported currently'
+    store = new Store options.persistance
 
 exports.daemon = ->
     ###
