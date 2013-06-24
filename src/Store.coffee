@@ -16,8 +16,10 @@ class Store
         unless (_.isObject @options) and
             (_.isString @options.connectionString)
                 throw new util.Error 'Incorrect params'
-        @options.eventsCollection ||= EVENTS_COLLECTION
-        @connection = mongoose.createConnection @options.connectionString
+        @options.eventsCollection ?= EVENTS_COLLECTION
+        @options.options ?= {}
+        @connection = mongoose.createConnection @options.connectionString, \
+                                                @options.options
         @_setupModel()
 
     closeConnection: (callback) ->
