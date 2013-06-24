@@ -1,6 +1,6 @@
 {
   "name": "schedule-drone",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Reliable, fault-tolerant, persistent event scheduler for node.js",
   "main": "lib/index.js",
   "scripts": {
