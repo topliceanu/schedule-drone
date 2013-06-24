@@ -18,6 +18,19 @@ describe 'Store', ->
             if err? then done err
             dataStore.closeConnection done
 
+    it 'should support the extended connection options, '+
+       'ie. clustering', (done) ->
+        store = new Store
+            connectionString: 'mongodb://localhost:27017/schedule-drone-test'
+            eventsCollection: 'events'
+            options:
+                someOption: true
+        assert.isDefined store?.connection?.options?.someOption,
+            'should pass the options to the constructor'
+        assert.isTrue store.connection.options.someOption,
+            'should set the correct option value to the underlying driver'
+        done()
+
     it 'should expose the correct api', ->
         assert.ok @store.EventModel?,
             'should expose the model object'
