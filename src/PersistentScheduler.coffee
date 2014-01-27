@@ -125,8 +125,9 @@ class PersistentScheduler extends Scheduler
                 if err then throw new util.Error err
 
                 todoEvents = unsolvedOneTimeEvents.concat oneTimeEvents
-                for {timestamp, event, payload} in todoEvents
+                for {id, timestamp, event, payload} in todoEvents
                     @schedule timestamp, event, payload
+                    @store.remove  id, () ->
 
 
 # Public api.

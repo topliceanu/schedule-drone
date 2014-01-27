@@ -148,6 +148,16 @@ class Store
 
                 return callback null, event.done is true
 
+    remove: (eventId, callback) ->
+        ###
+            Removes a one-time event.
+            @return {Boolean} whether the event was removed or not.
+        ###
+        @EventModel.remove {_id: eventId},
+            (err) ->
+                if err? then return callback err
+                return callback null, true
+
 
 # Public API
 module.exports = Store
