@@ -1,0 +1,7 @@
+--output ./doc
+--name "schedule-drone"
+--readme ./README.md
+--title "schedule-drone docs"
+./src
+-
+CHANGELOG.md
