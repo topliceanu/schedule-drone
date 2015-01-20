@@ -39,6 +39,8 @@ npm install schedule-drone
 
 ## Quick Example
 
+- read more on [crontab syntax here](http://crontab.org/)
+
 
 ## Contributing
 

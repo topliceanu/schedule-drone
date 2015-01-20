@@ -1,0 +1,27 @@
+{
+    "mongo": {
+        "host": "localhost",
+        "port": 27017,
+        "db": "mortimer"
+    },
+    "api": {
+        "timeout": 3600,
+        "retries": 3
+    },
+    "const": {
+        "TASK_STATE": {
+            "ENABLED": 0,
+            "DISABLED": 1
+        },
+        "METHOD": {
+            "GET": 0,
+            "POST": 1,
+            "PATCH": 2,
+            "PUT": 3,
+            "DELETE": 4,
+            "HEAD": 5,
+            "TRACE": 6,
+            "OPTIONS": 7
+        }
+    }
+}
