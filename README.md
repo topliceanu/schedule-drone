@@ -39,10 +39,10 @@ drone.setConfig
 scheduler = drone.daemon()
 
 # Add a one-time event scheduled in the future, given a Date instance.
-scheduler.schedule dateInFuture, 'my-one-time-event', params
+drone.schedule dateInFuture, 'my-one-time-event', params
 
 # Add the cyclic event using the standard unix cron syntax.
-scheduler.schedule '* * * * * 1', 'my-cron-event', params
+drone.schedule '* * * * * 1', 'my-cron-event', params
 
 scheduler.on 'my-one-time-event', (params) ->
     # Do something awesome

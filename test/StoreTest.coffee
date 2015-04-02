@@ -2,6 +2,7 @@ assert = (require 'chai').assert
 mongoose = require 'mongoose'
 moment = require 'moment'
 
+conf = require './conf'
 Store = require '../src/Store'
 
 
@@ -9,8 +10,8 @@ describe 'Store', ->
 
     beforeEach ->
         @store = new Store
-            connectionString: 'mongodb://localhost:27017/schedule-drone-test'
-            eventsCollection: 'events'
+            connectionString: conf.mongo.connectionString
+            eventsCollection: conf.mongo.eventsCollection
 
     afterEach (done) ->
         dataStore = @store

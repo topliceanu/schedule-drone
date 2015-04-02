@@ -1,0 +1,6 @@
+{
+    "mongo": {
+        "connectionString": "mongodb://localhost:27017/schedule-drone-test",
+        "eventsCollection": "events"
+    }
+}

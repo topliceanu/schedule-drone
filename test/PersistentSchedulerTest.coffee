@@ -2,6 +2,7 @@ assert = (require 'chai').assert
 moment = require 'moment'
 sinon = require 'sinon'
 
+conf = require './conf'
 Store = require '../src/Store'
 Scheduler = require '../src/Scheduler'
 PersistentScheduler = require '../src/PersistentScheduler'
@@ -11,8 +12,8 @@ describe 'PersistentScheduler', ->
 
     beforeEach ->
         @store = new Store
-            connectionString: 'mongodb://localhost:27017/schedule-drone-test'
-            eventsCollection: 'events'
+            connectionString: conf.mongo.connectionString
+            eventsCollection: conf.mongo.eventsCollection
 
     afterEach (done) ->
         dataStore = @store

@@ -1,6 +1,7 @@
 assert = (require 'chai').assert
 moment = require 'moment'
 
+conf = require './conf'
 drone = require '../src/'
 
 
@@ -20,7 +21,8 @@ describe 'schedule-drone', ->
         drone.setConfig
             persistence:
                 type: 'mongodb'
-                connectionString: 'mongodb://localhost:27017/scheduled-events'
+                connectionString: conf.mongo.connectionString
+                eventsCollection: conf.mongo.eventsCollection
 
         # Start the daemon that listens to new tasks and runs current ones.
         scheduler = drone.daemon()
